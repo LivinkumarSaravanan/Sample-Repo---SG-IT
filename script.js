@@ -138,7 +138,7 @@ function initScrollAnimations() {
 
         elements.forEach(el => {
             const rect = el.getBoundingClientRect();
-            const isVisible = rect.top < window.innerHeight * 0.85;
+            const isVisible = rect.top < window.innerHeight * 0.95;
 
             if (isVisible && !el.classList.contains('animated')) {
                 el.classList.add('animated');
@@ -295,6 +295,17 @@ function initScrollAnimations() {
         y: 0,
         duration: 0.8,
         ease: 'power2.out'
+    });
+
+    // Image grid items animation
+    ScrollTrigger.batch('.image-grid-item', {
+        start: 'top 85%',
+        onEnter: (items) => {
+            gsap.fromTo(items, { opacity: 0, y: 50, scale: 0.9 }, {
+                opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.15, ease: 'power2.out'
+            });
+        },
+        once: true
     });
 }
 
