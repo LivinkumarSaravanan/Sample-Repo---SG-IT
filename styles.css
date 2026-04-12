@@ -1,6 +1,10 @@
 /* ==========================================
    CSS VARIABLES & RESET
    ========================================== */
+html{
+    overflow-x: hidden !important;
+}
+
 :root {
     /* Primary Colors */
     --primary: #6366f1;
