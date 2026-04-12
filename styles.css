@@ -1,6 +1,7 @@
 /* ==========================================
    CSS VARIABLES & RESET
    ========================================== */
+
 html{
     overflow-x: hidden !important;
 }
@@ -677,6 +678,234 @@ ul {
     border-radius: 50%;
     color: var(--text-primary);
     font-size: 0.75rem;
+}
+
+/* ==========================================
+   ABOUT IMAGE GRID
+   ========================================== */
+.about-image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-3xl);
+    perspective: 1000px;
+}
+
+.image-grid-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+    box-shadow: var(--shadow-lg);
+}
+
+.image-grid-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.image-grid-item:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.2);
+}
+
+.image-grid-item:hover::before {
+    opacity: 1;
+}
+
+.image-grid-item img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-grid-item:hover img {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, var(--dark) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: var(--space-lg);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 2;
+}
+
+.image-grid-item:hover .image-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.overlay-content {
+    text-align: center;
+    transform: translateY(20px);
+    transition: transform 0.4s ease 0.1s;
+}
+
+.image-grid-item:hover .overlay-content {
+    transform: translateY(0);
+}
+
+.overlay-content svg {
+    width: 40px;
+    height: 40px;
+    stroke: var(--primary);
+    margin-bottom: var(--space-sm);
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.overlay-content h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: var(--space-xs);
+}
+
+.overlay-content p {
+    font-size: 0.875rem;
+    color: var(--gray-lighter);
+    line-height: 1.6;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+/* Staggered animation on scroll */
+.image-grid-item {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+}
+
+.image-grid-item.animated {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-grid-item:nth-child(1) { transition-delay: 0ms; }
+.image-grid-item:nth-child(2) { transition-delay: 100ms; }
+.image-grid-item:nth-child(3) { transition-delay: 200ms; }
+.image-grid-item:nth-child(4) { transition-delay: 300ms; }
+
+/* Glow effect on hover */
+.image-grid-item::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: var(--gradient-1);
+    border-radius: var(--radius-lg);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    filter: blur(15px);
+}
+
+.image-grid-item:hover::after {
+    opacity: 0.5;
+}
+
+/* Light mode specific adjustments */
+[data-theme="light"] .image-grid-item::before {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, transparent 100%);
+}
+
+[data-theme="light"] .image-overlay {
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+[data-theme="light"] .overlay-content h4 {
+    color: black;
+}
+
+[data-theme="light"] .overlay-content p {
+    color: black;
+}
+
+[data-theme="light"] .overlay-content svg {
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.4));
+}
+
+[data-theme="light"] .image-grid-item:hover {
+    box-shadow: 0 30px 60px rgba(99, 102, 241, 0.25), 0 0 40px rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="light"] .image-grid-item:hover::after {
+    opacity: 0.4;
+}
+
+/* ==========================================
+   RESPONSIVE IMAGE GRID
+   ========================================== */
+@media (max-width: 1024px) {
+    .about-image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .image-grid-item img {
+        height: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-image-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+    }
+
+    .image-grid-item img {
+        height: 180px;
+    }
+
+    .overlay-content h4 {
+        font-size: 1rem;
+    }
+
+    .overlay-content p {
+        font-size: 0.75rem;
+    }
+
+    .overlay-content svg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-image-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .image-grid-item img {
+        height: 220px;
+    }
+
+    .image-overlay {
+        opacity: 1;
+        transform: translateY(0);
+        background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.85) 60%);
+    }
 }
 
 /* ==========================================
@@ -1636,7 +1865,7 @@ a.contact-value:hover {
     }
 
     .logo-text {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         white-space: nowrap;
     }
 
@@ -1800,6 +2029,10 @@ a.contact-value:hover {
 }
 
 @media (max-width: 480px) {
+
+    .logo-text{
+        font-size: .9rem;
+    }
     .hero {
         padding: 100px 0 60px;
     }
