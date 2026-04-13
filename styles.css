@@ -2082,7 +2082,7 @@ a.contact-value:hover {
 @media (max-width: 480px) {
 
     .logo-text {
-        font-size: .9rem;
+        font-size: 1rem;
     }
 
     .hero {
